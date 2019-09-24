@@ -11,6 +11,9 @@ const PORT = process.env.PORT || 5000;
 //Connect DB
 connectDB();
 
+//Init Middleware
+app.use(express.json({ extended: false }));
+
 //Routes
 app.use("/api/users", usersRoutes);
 app.use("/api/auth", authRoutes);
