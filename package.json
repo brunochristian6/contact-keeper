@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "server": "nodemon",
-    "start": "node"
+    "start": "node",
+    "client": "npm start --prefix client",
+    "clientinstall": "npm i --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Bruno Christian",
   "license": "ISC",
