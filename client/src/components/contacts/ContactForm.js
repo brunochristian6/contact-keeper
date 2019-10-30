@@ -39,6 +39,7 @@ const ContactForm = () => {
       addContact(contact);
     } else {
       updateContact(contact);
+      
     }
 
     setContact({

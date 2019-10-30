@@ -1,8 +1,24 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AlertContext from "../../context/alert/alertContext";
-const Register = () => {
+import AuthContext from "../../context/auth/authContext";
+
+const Register = props => {
   const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
   const { setAlert } = alertContext;
+  const { register, error, clearErrors, isAuthenticated } = authContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push("/");
+    }
+
+    if (error === "User ja cadastrado") {
+      setAlert("Usuario Já Cadastrado  no sistema");
+      clearErrors();
+    }
+    //eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const [user, setUser] = useState({
     name: "",
@@ -10,18 +26,23 @@ const Register = () => {
     password: "",
     password2: ""
   });
-
   const { name, email, password, password2 } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+
   const onSubmit = e => {
     e.preventDefault();
     if (name === "" || email === "" || password === "") {
       setAlert("Por favor preencha todos os dados", "danger");
     } else if (password !== password2) {
       setAlert("Senhas inseridas não conferem", "danger");
+    } else {
+      register({
+        name,
+        email,
+        password
+      });
     }
-    console.log("Register Submit");
   };
   return (
     <div className="form-container">
